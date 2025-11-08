@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orçamento Transfer Executivo Dinâmico</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 21cm;
+            min-height: 29.7cm;
+            margin: 0;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .header .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #444;
+            width: 150px;
+            height: 50px;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .header .company-info {
+            text-align: right;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        .title-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .title-section h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .title-section .date {
+            font-size: 14px;
+        }
+        /* --- ESTILO DE INFORMAÇÕES GERAIS --- */
+        .info-block {
+            font-size: 14px;
+            margin-top: 20px;
+            line-height: 1.8;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        .info-line {
+            display: flex;
+            justify-content: flex-start;
+        }
+        .info-line strong {
+            display: inline-block;
+            width: 150px;
+            flex-shrink: 0;
+        }
+        
+        .service-title {
+            margin-top: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* --- ESTILO DE TRECHO DE VIAGEM (DINÂMICO) --- */
+        .trip-section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 15px;
+            background-color: #fff;
+            position: relative;
+        }
+        .trip-section .trip-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* Garante que o span do título editável herde o estilo do conteúdo editável */
+        .trip-section .trip-title .trip-label[contenteditable="true"] {
+             font-weight: bold;
+             display: inline-block;
+        }
+        
+        .trip-line strong {
+            width: 120px;
+        }
+        /* INPUTS INLINE */
+        .trip-line input {
+            border: none;
+            border-bottom: 1px dashed #fdbd3d;
+            padding: 0 4px;
+            background-color: #fff9e1;
+            font-family: inherit;
+            font-size: inherit;
+            color: #333;
+            width: calc(100% - 125px);
+        }
+        .trip-line input:focus {
+            outline: none;
+            border-bottom: 1px solid #007bff;
+            background-color: #e6f7ff;
+        }
+
+
+        .total-value-section {
+            margin-top: 30px;
+            text-align: right;
+            padding: 15px;
+            border-top: 2px solid #333;
+            border-bottom: 2px solid #333;
+            background-color: #f2f2f2;
+        }
+        .total-value-section .total-label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .total-value-section .total-amount {
+            font-size: 24px;
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+
+        .section-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .validity {
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 14px;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+        }
+        .observations {
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .terms {
+            font-size: 12px;
+            color: #555;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            line-height: 1.6;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        footer .signature {
+            margin-top: 40px;
+            border-top: 1px solid #000;
+            width: 250px;
+            padding-top: 5px;
+        }
+
+        /* Campos editáveis que não são inputs (incluindo o título do trecho) */
+        [contenteditable="true"] {
+            background-color: #fff9e1;
+            padding: 2px 4px;
+            border-radius: 3px;
+            outline: 1px dashed #fdbd3d;
+            cursor: text;
+        }
+        
+        /* NOVO ESTILO PARA O BOTÃO NO RODAPÉ */
+        .print-button {
+            /* Removido o 'order: -1;' para que o botão fique na última posição */
+            margin-top: 20px; /* Adiciona um espaço da assinatura */
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+
+        /* --- CONTROLES DE SERVIÇO (NOVOS) --- */
+        .service-controls {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .service-controls button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .service-controls .add-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .service-controls .remove-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        /* --- SEÇÃO DE IMPRESSÃO --- */
+        @page {
+            size: A4;
+            margin: 0; 
+        }
+
+        @media print {
+            body {
+                background-color: #fff;
+            }
+            .container {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 2cm;
+                box-shadow: none;
+                border: none;
+            }
+            [contenteditable="true"], .trip-line input {
+                background-color: transparent;
+                padding: 0;
+                border-radius: 0;
+                outline: none;
+                border-bottom: none !important;
+            }
+            .print-button,
+            .service-controls {
+                display: none; /* Esconde os botões e controles na impressão */
+            }
+        }
+
+        /* --- REGRAS RESPONSIVAS (MOBILE) --- */
+        @media screen and (max-width: 767px) {
+            .container {
+                min-height: 0;
+            }
+            /* ... (Outras regras mobile mantidas) ... */
+            .info-line, .trip-line {
+                flex-direction: column;
+            }
+            .info-line strong, .trip-line strong {
+                width: 100%;
+                margin-bottom: 3px;
+            }
+            .trip-line input {
+                width: 100%;
+            }
+        }
+
+        /* --- REGRAS PARA DESKTOP --- */
+        @media screen and (min-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 2cm;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="header">
+            <div class="logo">
+                [SEU LOGO AQUI]
+            </div>
+            <div class="company-info">
+                <strong><span contenteditable="true">[SUA EMPRESA]</span></strong><br>
+                CNPJ: <span contenteditable="true">[SEU CNPJ]</span><br>
+                <span contenteditable="true">[Seu Endereço, Número - Bairro]</span><br>
+                <span contenteditable="true">[Sua Cidade/UF CEP]</span><br>
+                <span contenteditable="true">[Seus Telefones]</span><br>
+                <span contenteditable="true">[Seu E-mail]</span><br>
+                <span contenteditable="true">[Seu Website]</span>
+            </div>
+        </header>
+
+        <section class="title-section">
+            <h1>ORÇAMENTO N° <span contenteditable="true">[47]</span></h1>
+            <div class="date"><span contenteditable="true">[21/10/2025]</span></div>
+        </section>
+        
+        <div class="validity">
+            VALIDADE DA PROPOSTA: <span contenteditable="true">[10 DIAS]</span>
+        </div>
+
+        <div class="section-title">DADOS DO CLIENTE</div>
+
+        <section class="info-block">
+            <div class="info-line">
+                <strong>Nome:</strong>
+                <span contenteditable="true">[NOME DO CLIENTE]</span>
+            </div>
+            <div class="info-line">
+                <strong>Telefone:</strong>
+                <span contenteditable="true">[TELEFONE DO CLIENTE]</span>
+            </div>
+            <div class="info-line">
+                <strong>Aos cuidados de:</strong>
+                <span contenteditable="true">[NOME DO CLIENTE]</span>
+            </div>
+        </section>
+
+        <div class="service-title">SERVIÇO: Transfer Privativo em VAN executiva</div>
+
+        <section class="info-block" style="margin-top: 10px;">
+            <div class="info-line">
+                <strong>Passageiros:</strong>
+                <span contenteditable="true">[4]</span> pessoas
+            </div>
+            <div class="info-line">
+                <strong>Veículo:</strong>
+                <span contenteditable="true">[VAN Executiva 15/18 Lugares]</span>
+            </div>
+        </section>
+
+        <div class="service-controls">
+            <button type="button" onclick="adicionarTrecho()" class="add-btn">➕ Adicionar Trecho</button>
+            <button type="button" onclick="removerTrecho()" class="remove-btn">➖ Remover Último</button>
+        </div>
+        
+        <div id="trip-sections-container">
+            <div class="trip-section" data-trip-number="1">
+                <div class="trip-title">
+                    <span class="trip-label" contenteditable="true">TRECHO 1 (IDA)</span>
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Data:</strong>
+                    <input type="text" class="date-mask" placeholder="DD/MM/AAAA" value="21/10/2025">
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Horário de saída:</strong>
+                    <input type="text" class="time-mask" placeholder="HH:MM" value="10:00">
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Embarque:</strong>
+                    <input type="text" value="Aeroporto FLN">
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Destino:</strong>
+                    <input type="text" value="Hotel Costão do Santinho">
+                </div>
+            </div>
+            
+            <div class="trip-section" data-trip-number="2">
+                <div class="trip-title">
+                    <span class="trip-label" contenteditable="true">TRECHO 2 (VOLTA)</span>
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Data:</strong>
+                    <input type="text" class="date-mask" placeholder="DD/MM/AAAA" value="25/10/2025">
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Horário de saída:</strong>
+                    <input type="text" class="time-mask" placeholder="HH:MM" value="14:00">
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Embarque:</strong>
+                    <input type="text" value="Hotel Costão do Santinho">
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Destino:</strong>
+                    <input type="text" value="Aeroporto FLN">
+                </div>
+            </div>
+        </div>
+
+        <section class="total-value-section">
+            <span class="total-label">VALOR TOTAL:</span>
+            <span class="total-amount">R$ <span contenteditable="true">700,00</span></span>
+        </section>
+
+        <div style="font-size: 14px; margin-top: 20px;">
+            <strong>FORMA DE PAGAMENTO:</strong> <span contenteditable="true">[PIX CNPJ: 12.345.678/0001-99 ou a combinar]</span>
+        </div>
+
+        <section class="observations">
+            <div class="section-title">OBSERVAÇÕES</div>
+            <p contenteditable="true">
+                [Incluir aqui observações importantes como: Bagagem, Roteiro detalhado, Nomes dos passageiros, Políticas de espera, etc.]<br>
+                [Ex: O valor inclui pedágios e taxas de embarque/desembarque.]
+            </p>
+        </section>
+
+        <section class="terms">
+            <strong>IMPORTANTE:</strong><br>
+            <span contenteditable="true">
+                [Caso haja necessidade de cancelamento, pedimos que nos avise com no mínimo 72 horas de antecedência, caso contrário ou ausência
+                no local combinado podem gerar cobrança total ou parcial do serviço contratado, conforme disponibilidade do veículo e compromisso
+                assumido.]<br>
+                [Não é permitido tomar bebidas alcoólicas dentro da Van devido a regras do Seguro.]
+            </span>
+        </section>
+
+        <footer>
+            
+            <span contenteditable="true">[Sua Empresa - Seu destino, nossa missão.]</span>
+            <div class="signature">
+                Assinatura do cliente
+            </div>
+            
+            <button class="print-button" onclick="window.print()">Imprimir Orçamento</button>
+
+        </footer>
+
+    </div>
+
+<script>
+    // --- 1. FUNÇÕES DE MÁSCARA ---
+    
+    function dateMask(event) {
+        let input = event.target;
+        let value = input.value.replace(/\D/g, ''); 
+        
+        if (value.length > 8) value = value.slice(0, 8);
+        
+        if (value.length > 4) {
+            value = value.replace(/^(\d{2})(\d{2})(.*)$/, '$1/$2/$3');
+        } else if (value.length > 2) {
+            value = value.replace(/^(\d{2})(.*)$/, '$1/$2');
+        }
+        
+        input.value = value;
+    }
+
+    function timeMask(event) {
+        let input = event.target;
+        let value = input.value.replace(/\D/g, '');
+
+        if (value.length > 4) value = value.slice(0, 4);
+        
+        if (value.length > 2) {
+            value = value.replace(/^(\d{2})(.*)$/, '$1:$2');
+        }
+
+        input.value = value;
+    }
+    
+    function applyMasks() {
+        document.querySelectorAll('.date-mask').forEach(input => {
+            input.removeEventListener('input', dateMask);
+            input.addEventListener('input', dateMask);
+        });
+        
+        document.querySelectorAll('.time-mask').forEach(input => {
+            input.removeEventListener('input', timeMask);
+            input.addEventListener('input', timeMask);
+        });
+    }
+
+    // --- 2. FUNÇÕES DE TRECHO DINÂMICO ---
+    
+    function adicionarTrecho() {
+        var container = document.getElementById('trip-sections-container');
+        var currentTrips = container.querySelectorAll('.trip-section');
+        var newTripNumber = currentTrips.length + 1;
+        
+        let tripLabel = `TRECHO ${newTripNumber}`;
+        if (newTripNumber === 1) {
+            tripLabel = 'TRECHO 1 (IDA)';
+        } else if (newTripNumber === 2) {
+            tripLabel = 'TRECHO 2 (VOLTA)';
+        } else {
+             tripLabel = `TRECHO ${newTripNumber} (ADICIONAL)`;
+        }
+
+        var newTripHTML = `
+            <div class="trip-section" data-trip-number="${newTripNumber}">
+                <div class="trip-title">
+                    <span class="trip-label" contenteditable="true">${tripLabel}</span>
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Data:</strong>
+                    <input type="text" class="date-mask" placeholder="DD/MM/AAAA" value="">
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Horário de saída:</strong>
+                    <input type="text" class="time-mask" placeholder="HH:MM" value="">
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Embarque:</strong>
+                    <input type="text" value="[Endereço de Embarque]">
+                </div>
+                <div class="info-line trip-line">
+                    <strong>Destino:</strong>
+                    <input type="text" value="[Endereço de Destino]">
+                </div>
+            </div>
+        `;
+        
+        container.insertAdjacentHTML('beforeend', newTripHTML);
+        
+        applyMasks();
+    }
+
+    function removerTrecho() {
+        var container = document.getElementById('trip-sections-container');
+        var currentTrips = container.querySelectorAll('.trip-section');
+        
+        if (currentTrips.length > 0) {
+            container.removeChild(currentTrips[currentTrips.length - 1]);
+        } else {
+            alert("Não há mais trechos para remover.");
+        }
+    }
+    
+    // Inicializa as máscaras quando a página carrega
+    window.onload = applyMasks;
+
+</script>
+</body>
+</html>
