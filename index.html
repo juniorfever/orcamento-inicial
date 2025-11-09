@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orçamento Transfer Executivo Dinâmico</title>
-<style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -12,6 +12,7 @@
             background-color: #f4f4f4;
             color: #333;
         }
+
         .container {
             width: 100%;
             max-width: 21cm;
@@ -19,9 +20,10 @@
             margin: 0;
             padding: 15px;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
         }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -29,6 +31,7 @@
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
         }
+
         .header .logo {
             font-size: 28px;
             font-weight: bold;
@@ -41,24 +44,29 @@
             justify-content: center;
             flex-shrink: 0;
         }
+
         .header .company-info {
             text-align: right;
             font-size: 12px;
             line-height: 1.6;
         }
+
         .title-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 20px;
         }
+
         .title-section h1 {
             margin: 0;
             font-size: 24px;
         }
+
         .title-section .date {
             font-size: 14px;
         }
+
         /* --- ESTILO DE INFORMAÇÕES GERAIS --- */
         .info-block {
             font-size: 14px;
@@ -67,24 +75,31 @@
             border: 1px solid #ddd;
             padding: 15px;
             background-color: #f9f9f9;
+            
+            /* Evita quebra na impressão */
+            page-break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            break-inside: avoid;
         }
+
         .info-line {
             display: flex;
             justify-content: flex-start;
         }
+
         .info-line strong {
             display: inline-block;
             width: 150px;
             flex-shrink: 0;
         }
-        
+
         .service-title {
             margin-top: 25px;
             font-size: 16px;
             font-weight: bold;
             color: #333;
         }
-        
+
         /* --- ESTILO DE TRECHO DE VIAGEM (DINÂMICO) --- */
         .trip-section {
             border: 1px solid #ccc;
@@ -92,7 +107,13 @@
             margin-top: 15px;
             background-color: #fff;
             position: relative;
+            
+            /* SOLUÇÃO PARA EVITAR QUEBRA NA IMPRESSÃO */
+            page-break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            break-inside: avoid;
         }
+
         .trip-section .trip-title {
             font-weight: bold;
             font-size: 16px;
@@ -103,15 +124,17 @@
             justify-content: space-between;
             align-items: center;
         }
+
         /* Garante que o span do título editável herde o estilo do conteúdo editável */
         .trip-section .trip-title .trip-label[contenteditable="true"] {
-             font-weight: bold;
-             display: inline-block;
+            font-weight: bold;
+            display: inline-block;
         }
-        
+
         .trip-line strong {
             width: 120px;
         }
+
         /* INPUTS INLINE */
         .trip-line input {
             border: none;
@@ -123,6 +146,7 @@
             color: #333;
             width: calc(100% - 125px);
         }
+
         .trip-line input:focus {
             outline: none;
             border-bottom: 1px solid #007bff;
@@ -137,12 +161,18 @@
             border-top: 2px solid #333;
             border-bottom: 2px solid #333;
             background-color: #f2f2f2;
+            
+            /* Evita quebra */
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
+
         .total-value-section .total-label {
             font-size: 18px;
             font-weight: bold;
             margin-right: 10px;
         }
+
         .total-value-section .total-amount {
             font-size: 24px;
             color: #d9534f;
@@ -158,6 +188,7 @@
             border-bottom: 1px solid #eee;
             padding-bottom: 5px;
         }
+
         .validity {
             font-weight: bold;
             margin-top: 15px;
@@ -166,11 +197,18 @@
             background-color: #f9f9f9;
             border: 1px solid #eee;
         }
+
         .observations {
             font-size: 13px;
             line-height: 1.6;
             margin-bottom: 20px;
+            
+            /* Evita quebra na impressão */
+            page-break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            break-inside: avoid;
         }
+
         .terms {
             font-size: 12px;
             color: #555;
@@ -178,7 +216,13 @@
             padding-top: 10px;
             border-top: 1px solid #eee;
             line-height: 1.6;
+            
+            /* Evita quebra na impressão */
+            page-break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            break-inside: avoid;
         }
+
         footer {
             text-align: center;
             margin-top: 30px;
@@ -188,7 +232,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            
+            /* Evita quebra de todo o rodapé */
+            page-break-before: auto;
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
+
         footer .signature {
             margin-top: 40px;
             border-top: 1px solid #000;
@@ -204,11 +254,10 @@
             outline: 1px dashed #fdbd3d;
             cursor: text;
         }
-        
+
         /* NOVO ESTILO PARA O BOTÃO NO RODAPÉ */
         .print-button {
-            /* Removido o 'order: -1;' para que o botão fique na última posição */
-            margin-top: 20px; /* Adiciona um espaço da assinatura */
+            margin-top: 20px;
             padding: 10px 15px;
             background-color: #007bff;
             color: white;
@@ -216,7 +265,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             z-index: 10;
         }
 
@@ -228,6 +277,7 @@
             gap: 10px;
             margin-top: 15px;
         }
+
         .service-controls button {
             padding: 8px 15px;
             border: none;
@@ -236,25 +286,28 @@
             font-size: 14px;
             font-weight: bold;
         }
+
         .service-controls .add-btn {
             background-color: #28a745;
             color: white;
         }
+
         .service-controls .remove-btn {
             background-color: #dc3545;
             color: white;
         }
-        
+
         /* --- SEÇÃO DE IMPRESSÃO --- */
         @page {
             size: A4;
-            margin: 0; 
+            margin: 0;
         }
 
         @media print {
             body {
                 background-color: #fff;
             }
+
             .container {
                 width: 100%;
                 max-width: 100%;
@@ -263,16 +316,20 @@
                 box-shadow: none;
                 border: none;
             }
-            [contenteditable="true"], .trip-line input {
+
+            [contenteditable="true"],
+            .trip-line input {
                 background-color: transparent;
                 padding: 0;
                 border-radius: 0;
                 outline: none;
                 border-bottom: none !important;
             }
+
             .print-button,
             .service-controls {
-                display: none; /* Esconde os botões e controles na impressão */
+                display: none;
+                /* Esconde os botões e controles na impressão */
             }
         }
 
@@ -281,14 +338,18 @@
             .container {
                 min-height: 0;
             }
-            /* ... (Outras regras mobile mantidas) ... */
-            .info-line, .trip-line {
+
+            .info-line,
+            .trip-line {
                 flex-direction: column;
             }
-            .info-line strong, .trip-line strong {
+
+            .info-line strong,
+            .trip-line strong {
                 width: 100%;
                 margin-bottom: 3px;
             }
+
             .trip-line input {
                 width: 100%;
             }
@@ -301,33 +362,32 @@
                 padding: 2cm;
             }
         }
-
     </style>
 </head>
+
 <body>
 
     <div class="container">
-        
+
         <header class="header">
-            <div class="logo">
-                [SEU LOGO AQUI]
-            </div>
+            <img src="img/logo.png" width="200px" alt="Logo da Empresa">
             <div class="company-info">
-                <strong><span contenteditable="true">[SUA EMPRESA]</span></strong><br>
-                CNPJ: <span contenteditable="true">[SEU CNPJ]</span><br>
-                <span contenteditable="true">[Seu Endereço, Número - Bairro]</span><br>
-                <span contenteditable="true">[Sua Cidade/UF CEP]</span><br>
-                <span contenteditable="true">[Seus Telefones]</span><br>
-                <span contenteditable="true">[Seu E-mail]</span><br>
-                <span contenteditable="true">[Seu Website]</span>
+                <strong><span contenteditable="true">RORATO VIAGENS E TURISMO LTDA</span></strong><br>
+                CNPJ: <span contenteditable="true">12.245.638/0001-71</span><br>
+                IE: <span contenteditable="true">131/0181516</span><br>
+                <span contenteditable="true">Rua Professor Langendock, nº167 / 06</span><br>
+                <span contenteditable="true">São Jacó - Sapiranga/RS</span><br>
+                CEP:<span contenteditable="true"> 93.819-696</span><br>
+                TELEFONE:<span contenteditable="true"> (51) 9 9353-8663</span><br>
+                <span contenteditable="true">www.roratotransfer.com.br</span><br>
             </div>
         </header>
 
         <section class="title-section">
-            <h1>ORÇAMENTO N° <span contenteditable="true">[47]</span></h1>
+            <h1>ORÇAMENTO</h1>
             <div class="date"><span contenteditable="true">[21/10/2025]</span></div>
         </section>
-        
+
         <div class="validity">
             VALIDADE DA PROPOSTA: <span contenteditable="true">[10 DIAS]</span>
         </div>
@@ -366,7 +426,7 @@
             <button type="button" onclick="adicionarTrecho()" class="add-btn">➕ Adicionar Trecho</button>
             <button type="button" onclick="removerTrecho()" class="remove-btn">➖ Remover Último</button>
         </div>
-        
+
         <div id="trip-sections-container">
             <div class="trip-section" data-trip-number="1">
                 <div class="trip-title">
@@ -389,7 +449,7 @@
                     <input type="text" value="Hotel Costão do Santinho">
                 </div>
             </div>
-            
+
             <div class="trip-section" data-trip-number="2">
                 <div class="trip-title">
                     <span class="trip-label" contenteditable="true">TRECHO 2 (VOLTA)</span>
@@ -411,7 +471,8 @@
                     <input type="text" value="Aeroporto FLN">
                 </div>
             </div>
-        </div>
+            
+            </div>
 
         <section class="total-value-section">
             <span class="total-label">VALOR TOTAL:</span>
@@ -419,13 +480,15 @@
         </section>
 
         <div style="font-size: 14px; margin-top: 20px;">
-            <strong>FORMA DE PAGAMENTO:</strong> <span contenteditable="true">[PIX CNPJ: 12.345.678/0001-99 ou a combinar]</span>
+            <strong>FORMA DE PAGAMENTO:</strong> <span contenteditable="true">[PIX CNPJ: 12.345.678/0001-99 ou a
+                combinar]</span>
         </div>
 
         <section class="observations">
             <div class="section-title">OBSERVAÇÕES</div>
             <p contenteditable="true">
-                [Incluir aqui observações importantes como: Bagagem, Roteiro detalhado, Nomes dos passageiros, Políticas de espera, etc.]<br>
+                [Incluir aqui observações importantes como: Bagagem, Roteiro detalhado, Nomes dos passageiros, Políticas
+                de espera, etc.]<br>
                 [Ex: O valor inclui pedágios e taxas de embarque/desembarque.]
             </p>
         </section>
@@ -433,128 +496,128 @@
         <section class="terms">
             <strong>IMPORTANTE:</strong><br>
             <span contenteditable="true">
-                [Caso haja necessidade de cancelamento, pedimos que nos avise com no mínimo 72 horas de antecedência, caso contrário ou ausência
-                no local combinado podem gerar cobrança total ou parcial do serviço contratado, conforme disponibilidade do veículo e compromisso
+                [Caso haja necessidade de cancelamento, pedimos que nos avise com no mínimo 72 horas de antecedência,
+                caso contrário ou ausência
+                no local combinado podem gerar cobrança total ou parcial do serviço contratado, conforme disponibilidade
+                do veículo e compromisso
                 assumido.]<br>
                 [Não é permitido tomar bebidas alcoólicas dentro da Van devido a regras do Seguro.]
             </span>
         </section>
 
         <footer>
-            
             <span contenteditable="true">[Sua Empresa - Seu destino, nossa missão.]</span>
             <div class="signature">
                 Assinatura do cliente
             </div>
             
             <button class="print-button" onclick="window.print()">Imprimir Orçamento</button>
-
         </footer>
 
     </div>
 
-<script>
-    // --- 1. FUNÇÕES DE MÁSCARA ---
-    
-    function dateMask(event) {
-        let input = event.target;
-        let value = input.value.replace(/\D/g, ''); 
-        
-        if (value.length > 8) value = value.slice(0, 8);
-        
-        if (value.length > 4) {
-            value = value.replace(/^(\d{2})(\d{2})(.*)$/, '$1/$2/$3');
-        } else if (value.length > 2) {
-            value = value.replace(/^(\d{2})(.*)$/, '$1/$2');
-        }
-        
-        input.value = value;
-    }
+    <script>
+        // --- 1. FUNÇÕES DE MÁSCARA ---
 
-    function timeMask(event) {
-        let input = event.target;
-        let value = input.value.replace(/\D/g, '');
+        function dateMask(event) {
+            let input = event.target;
+            let value = input.value.replace(/\D/g, '');
 
-        if (value.length > 4) value = value.slice(0, 4);
-        
-        if (value.length > 2) {
-            value = value.replace(/^(\d{2})(.*)$/, '$1:$2');
+            if (value.length > 8) value = value.slice(0, 8);
+
+            if (value.length > 4) {
+                value = value.replace(/^(\d{2})(\d{2})(.*)$/, '$1/$2/$3');
+            } else if (value.length > 2) {
+                value = value.replace(/^(\d{2})(.*)$/, '$1/$2');
+            }
+
+            input.value = value;
         }
 
-        input.value = value;
-    }
-    
-    function applyMasks() {
-        document.querySelectorAll('.date-mask').forEach(input => {
-            input.removeEventListener('input', dateMask);
-            input.addEventListener('input', dateMask);
-        });
-        
-        document.querySelectorAll('.time-mask').forEach(input => {
-            input.removeEventListener('input', timeMask);
-            input.addEventListener('input', timeMask);
-        });
-    }
+        function timeMask(event) {
+            let input = event.target;
+            let value = input.value.replace(/\D/g, '');
 
-    // --- 2. FUNÇÕES DE TRECHO DINÂMICO ---
-    
-    function adicionarTrecho() {
-        var container = document.getElementById('trip-sections-container');
-        var currentTrips = container.querySelectorAll('.trip-section');
-        var newTripNumber = currentTrips.length + 1;
-        
-        let tripLabel = `TRECHO ${newTripNumber}`;
-        if (newTripNumber === 1) {
-            tripLabel = 'TRECHO 1 (IDA)';
-        } else if (newTripNumber === 2) {
-            tripLabel = 'TRECHO 2 (VOLTA)';
-        } else {
-             tripLabel = `TRECHO ${newTripNumber} (ADICIONAL)`;
+            if (value.length > 4) value = value.slice(0, 4);
+
+            if (value.length > 2) {
+                value = value.replace(/^(\d{2})(.*)$/, '$1:$2');
+            }
+
+            input.value = value;
         }
 
-        var newTripHTML = `
-            <div class="trip-section" data-trip-number="${newTripNumber}">
-                <div class="trip-title">
-                    <span class="trip-label" contenteditable="true">${tripLabel}</span>
-                </div>
-                <div class="info-line trip-line">
-                    <strong>Data:</strong>
-                    <input type="text" class="date-mask" placeholder="DD/MM/AAAA" value="">
-                </div>
-                <div class="info-line trip-line">
-                    <strong>Horário de saída:</strong>
-                    <input type="text" class="time-mask" placeholder="HH:MM" value="">
-                </div>
-                <div class="info-line trip-line">
-                    <strong>Embarque:</strong>
-                    <input type="text" value="[Endereço de Embarque]">
-                </div>
-                <div class="info-line trip-line">
-                    <strong>Destino:</strong>
-                    <input type="text" value="[Endereço de Destino]">
-                </div>
-            </div>
-        `;
-        
-        container.insertAdjacentHTML('beforeend', newTripHTML);
-        
-        applyMasks();
-    }
+        function applyMasks() {
+            document.querySelectorAll('.date-mask').forEach(input => {
+                input.removeEventListener('input', dateMask);
+                input.addEventListener('input', dateMask);
+            });
 
-    function removerTrecho() {
-        var container = document.getElementById('trip-sections-container');
-        var currentTrips = container.querySelectorAll('.trip-section');
-        
-        if (currentTrips.length > 0) {
-            container.removeChild(currentTrips[currentTrips.length - 1]);
-        } else {
-            alert("Não há mais trechos para remover.");
+            document.querySelectorAll('.time-mask').forEach(input => {
+                input.removeEventListener('input', timeMask);
+                input.addEventListener('input', timeMask);
+            });
         }
-    }
-    
-    // Inicializa as máscaras quando a página carrega
-    window.onload = applyMasks;
 
-</script>
+        // --- 2. FUNÇÕES DE TRECHO DINÂMICO ---
+
+        function adicionarTrecho() {
+            var container = document.getElementById('trip-sections-container');
+            var currentTrips = container.querySelectorAll('.trip-section');
+            var newTripNumber = currentTrips.length + 1;
+
+            let tripLabel = `TRECHO ${newTripNumber}`;
+            // A lógica de numeração e rotulação foi mantida aqui
+            if (newTripNumber === 1) {
+                tripLabel = 'TRECHO 1 (IDA)';
+            } else if (newTripNumber === 2) {
+                tripLabel = 'TRECHO 2 (VOLTA)';
+            } else {
+                tripLabel = `TRECHO ${newTripNumber} (ADICIONAL)`;
+            }
+
+            var newTripHTML = `
+                <div class="trip-section" data-trip-number="${newTripNumber}">
+                    <div class="trip-title">
+                        <span class="trip-label" contenteditable="true">${tripLabel}</span>
+                    </div>
+                    <div class="info-line trip-line">
+                        <strong>Data:</strong>
+                        <input type="text" class="date-mask" placeholder="DD/MM/AAAA" value="">
+                    </div>
+                    <div class="info-line trip-line">
+                        <strong>Horário de saída:</strong>
+                        <input type="text" class="time-mask" placeholder="HH:MM" value="">
+                    </div>
+                    <div class="info-line trip-line">
+                        <strong>Embarque:</strong>
+                        <input type="text" value="[Endereço de Embarque]">
+                    </div>
+                    <div class="info-line trip-line">
+                        <strong>Destino:</strong>
+                        <input type="text" value="[Endereço de Destino]">
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', newTripHTML);
+
+            applyMasks();
+        }
+
+        function removerTrecho() {
+            var container = document.getElementById('trip-sections-container');
+            var currentTrips = container.querySelectorAll('.trip-section');
+
+            if (currentTrips.length > 0) {
+                container.removeChild(currentTrips[currentTrips.length - 1]);
+            } else {
+                alert("Não há mais trechos para remover.");
+            }
+        }
+
+        // Inicializa as máscaras quando a página carrega
+        window.onload = applyMasks;
+    </script>
 </body>
 </html>
